@@ -6,7 +6,7 @@
             [rando-planner.leaflet :as leaflet]
             [nextjournal.clerk :as clerk]))
 
-;; # Paris - Lisbonne
+;; # Paris - Le Havre
 
 ;; Prévisualisation du trajet
 
