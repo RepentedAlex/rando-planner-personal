@@ -6,36 +6,56 @@
             [rando-planner.leaflet :as leaflet]
             [nextjournal.clerk :as clerk]))
 
-;; # Paris - Le Havre
+;; # Bikepacking Journey: Paris to Le Havre
+;; 
+;; Embark on an exciting bikepacking trip from the bustling streets of Paris to the serene coast of Le Havre.
+;; 
+;; - **Total Distance**: 🏁 Estimations available
+;; - **Expected Average Speed**: 🚴 15 km/h
+;; - **Estimated Total Time**: 🕒 Adjusts based on speed
+;; 
+;; Let's dive into the details!
 
-;; Prévisualisation du trajet
-
+;; ## Route Preview
+;; Here is the full route from Paris to Le Havre. Zoom in and out to explore various segments of the journey.
 ^{:nextjournal.clerk/visibility {:code :hide}}
 (clerk/with-viewer leaflet/leaflet-gpx-viewer
   {:gpx "gpx/paris-lehavre.gpx"})
 
-;; ## Distance totale
-
+;; ## Total Distance
+;; The total distance for the trip is calculated from the GPX file.
 ^{:nextjournal.clerk/visibility {:code :hide}}
-(gpx/total-distance "gpx/paris-lehavre.gpx")
+(def total-distance (gpx/total-distance "gpx/paris-lehavre.gpx"))
+[:div "Total Distance: " (str total-distance " km")]
 
-;; ## A little peek at the elevation
-
+;; ## Elevation Profile
+;; Get a sneak peek into the elevation changes you will encounter on your trip.
 ^{:nextjournal.clerk/visibility {:code :hide}}
 (clerk/with-viewer diagram/elevation-viewer {:gpx "gpx/paris-lehavre.gpx"})
 
-;; ## Vitesse moyenne anticipée
-
-^{:nextjournal.clerk/visibility {:code :hide}}
+;; ## Anticipated Average Speed
+;; Estimate your journey time based on a planned average speed. Adjust this value for different pace scenarios.
+^{:nextjournal.clerk/visibility {:code :show}}
 (def average-speed 15)
+[:div "Anticipated Average Speed: " (str average-speed " km/h")]
 
-;; ## Nombre d'heures anticipées (selon vitesse anticipée)
+;; ## Estimated Travel Time
+;; Calculate your estimated time to complete the trip based on the total distance and planned average speed.
+^{:nextjournal.clerk/visibility {:code :show}}
+(def estimated-time (/ total-distance average-speed))
+[:div "Estimated Total Travel Time: " (str estimated-time " hours")]
 
-^{:nextjournal.clerk/visibility {:code :hide}}
-(/ (gpx/total-distance "gpx/paris-lehavre.gpx")
-   average-speed)
+;; ## Points of Interest
+;; Key highlights and stops along the way to make your journey memorable.
+[:ul
+ [:li "Paris: Start at the heart of France"]
+ [:li "Rouen: A scenic midpoint for rest and refuel"]
+ [:li "Le Havre: Destination by the sea"]]
 
-;; ## So if we ride for four days, how will it go ?
+
+
+
+
 
 ^{:nextjournal.clerk/visibility {:code :hide}}
 (def equally-split-plan
@@ -53,15 +73,6 @@
                  {:date "2025-01-04"
                   :label "Fourth day"
                   :activities [{:start "10:00" :type :ride :length 9.2}]}]})
-
-(clerk/with-viewer diagram/plan-viewer equally-split-plan)
-
-;; Each square in the diagram corresponds to one hour of ride.  The
-;; color of the square displays the light condition at that time.
-;; This is why it is important to provide a `:date` in the plan:
-;; rando-planner uses that, along with the GPX route, to calculate
-;; when the Sun is setting in a particular place and time.
-
 
 ^{:nextjournal.clerk/visibility {:code :hide}}
 (def equally-split-plan-with-pauses
@@ -84,11 +95,7 @@
                   :activities [{:start "08:00" :type :ride :length 3}
                                {:start "12:00" :type :ride :length 6.2}]}]})
 
-(clerk/with-viewer diagram/plan-viewer equally-split-plan-with-pauses)
-
 ^{:nextjournal.clerk/visibility {:code :hide}}
-(clerk/with-viewer diagram/elevation-viewer equally-split-plan-with-pauses)
-
 (merge
  {:nextjournal/width :full}
  (clerk/row
