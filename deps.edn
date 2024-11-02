@@ -5,5 +5,15 @@
         io.github.nextjournal/clerk {:mvn/version "0.15.957"}
         com.widdindustries/cljc.java-time {:mvn/version "0.1.21"}
         tick/tick {:mvn/version "0.7.5"}}
-:aliases
-{:clerk {:main-opts ["-e" "(require,'user),(user/start-clerk)"]}}}
+
+ :aliases
+ {:build-notebook
+  {:main-opts ["-e" 
+    "(do 
+       (require 'nextjournal.clerk) 
+       (let [notebook (or (System/getenv \"NOTEBOOK\") \"notebooks/default.clj\")]
+         (nextjournal.clerk/build! {:paths [notebook]
+                                    :out-path (str \"public/\" 
+                                                   (clojure.string/replace notebook #\"\\.clj$\" \".html\"))})))"]}
+  :clerk
+  {:main-opts ["-e" "(require,'user),(user/start-clerk)"]}}}
