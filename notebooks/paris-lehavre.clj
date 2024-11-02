@@ -6,51 +6,42 @@
             [rando-planner.leaflet :as leaflet]
             [nextjournal.clerk :as clerk]))
 
-;; # Bikepacking Journey: Paris to Le Havre
+;; # 000 - Paris / Le Havre
 ;; 
-;; Embark on an exciting bikepacking trip from the bustling streets of Paris to the serene coast of Le Havre.
+;; Une virée bikepacking des rues animées parisiennes aux côtes havraises. 
 ;; 
-;; - **Total Distance**: 🏁 Estimations available
-;; - **Expected Average Speed**: 🚴 15 km/h
-;; - **Estimated Total Time**: 🕒 Adjusts based on speed
+;; - **Distance Totale**: 🏁 Estimations available
+;; - **Vitesse Moyenne Anticipée**: 🚴 15 km/h
+;; - **Temps Total Estimé**: 🕒 Adjusts based on speed
 ;; 
-;; Let's dive into the details!
 
-;; ## Route Preview
-;; Here is the full route from Paris to Le Havre. Zoom in and out to explore various segments of the journey.
+;; ## Aperçu de la route
+;; Voici la trace de Paris au Havre.
 ^{:nextjournal.clerk/visibility {:code :hide}}
 (clerk/with-viewer leaflet/leaflet-gpx-viewer
   {:gpx "gpx/paris-lehavre.gpx"})
 
-;; ## Total Distance
-;; The total distance for the trip is calculated from the GPX file.
+;; ## Distance Totale
 ^{:nextjournal.clerk/visibility {:code :hide}}
 (def total-distance (gpx/total-distance "gpx/paris-lehavre.gpx"))
-[:div "Total Distance: " (str total-distance " km")]
 
-;; ## Elevation Profile
-;; Get a sneak peek into the elevation changes you will encounter on your trip.
+;; ## Profil d'Élévation
 ^{:nextjournal.clerk/visibility {:code :hide}}
 (clerk/with-viewer diagram/elevation-viewer {:gpx "gpx/paris-lehavre.gpx"})
 
-;; ## Anticipated Average Speed
-;; Estimate your journey time based on a planned average speed. Adjust this value for different pace scenarios.
-^{:nextjournal.clerk/visibility {:code :show}}
+;; ## Vitesse Moyenne Anticipée
+^{:nextjournal.clerk/visibility {:code :hide}}
 (def average-speed 15)
-[:div "Anticipated Average Speed: " (str average-speed " km/h")]
 
-;; ## Estimated Travel Time
-;; Calculate your estimated time to complete the trip based on the total distance and planned average speed.
-^{:nextjournal.clerk/visibility {:code :show}}
+;; ## Temps Estimé de Roulage
+^{:nextjournal.clerk/visibility {:code :hide}}
 (def estimated-time (/ total-distance average-speed))
-[:div "Estimated Total Travel Time: " (str estimated-time " hours")]
 
-;; ## Points of Interest
-;; Key highlights and stops along the way to make your journey memorable.
+;; ## Lieux d'intérêt
 [:ul
- [:li "Paris: Start at the heart of France"]
- [:li "Rouen: A scenic midpoint for rest and refuel"]
- [:li "Le Havre: Destination by the sea"]]
+ [:li "Paris: Point Zéro"]
+ [:li "Rouen: Escale Historique"]
+ [:li "Le Havre: Porte sur l'Atlantique"]]
 
 
 
@@ -100,11 +91,11 @@
  {:nextjournal/width :full}
  (clerk/row
   (clerk/col
-   (clerk/html [:h3 "Plan with no lunch!"])
+   (clerk/html [:h3 "Plan sans pauses!"])
    (clerk/with-viewer diagram/elevation-viewer equally-split-plan)
    (clerk/with-viewer diagram/plan-viewer equally-split-plan))
   (clerk/col
-   (clerk/html [:h3 "Plan with a pause"])
+   (clerk/html [:h3 "Plan avec pauses!"])
    (clerk/with-viewer diagram/elevation-viewer equally-split-plan-with-pauses)
    (clerk/with-viewer diagram/plan-viewer equally-split-plan-with-pauses))))
 
