@@ -1,6 +1,9 @@
 {:paths ["src" "test" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.10.3"}
         org.clojure/data.xml {:mvn/version "0.0.8"}
+        org.slf4j/slf4j-nop {:mvn/version "1.7.32"}
         io.github.nextjournal/clerk {:mvn/version "0.15.957"}
         com.widdindustries/cljc.java-time {:mvn/version "0.1.21"}
-        tick/tick {:mvn/version "0.7.5"}}}
+        tick/tick {:mvn/version "0.7.5"}}
+:aliases
+{:clerk {:main-opts ["-e" "(require,'user),(user/start-clerk)"]}}}
